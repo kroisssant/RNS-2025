@@ -16,9 +16,7 @@ public class ScoringSubsystem {
 
         pivot = hardwareMap.get(Servo.class, "pivot");
 
-        pressureStanga = hardwareMap.get(Servo.class, "pressureStanga");
-        pressureDreapta = hardwareMap.get(Servo.class, "pressureDrepta");
-        pressureDreapta.setDirection(Servo.Direction.REVERSE);
+        claw = hardwareMap.get(Servo.class, "claw");
 
         twist = hardwareMap.get(Servo.class, "twist");
     }

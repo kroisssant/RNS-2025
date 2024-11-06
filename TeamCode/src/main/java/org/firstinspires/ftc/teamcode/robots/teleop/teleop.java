@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.robots.subSystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.robots.subSystems.ScoringSubsystem;
 
 @TeleOp
-public class teleop extends LinearOpMode {
+public class  teleop extends LinearOpMode {
     GlisieraSubsystem glisieraOutake;
     ElapsedTime timer;
     int glisieraTargetPos = 0;
