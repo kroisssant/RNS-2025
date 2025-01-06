@@ -14,12 +14,14 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 public class teleop extends LinearOpMode {
     int glisieraTargetPos = 0;
     statesOuttake reqState = null;
+    statesSequence sequenceState = statesSequence.DONE;
     mode modeRob = mode.BASKET;
     statesOuttake outtakeState = statesOuttake.DEFAULT;
     SampleMecanumDrive drive;
     GAMEPAD GAMEPAD1, GAMEPAD2;
     crane crane;
     outake outake;
+    ElapsedTime timer;
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -29,6 +31,7 @@ public class teleop extends LinearOpMode {
         GAMEPAD2 = new GAMEPAD(this.gamepad2, telemetry);
         crane = new crane(hardwareMap);
         outake = new outake(hardwareMap);
+        timer = new ElapsedTime();
         waitForStart();
         while (opModeIsActive() && !isStopRequested()) {
             GAMEPAD1.run();
@@ -61,8 +64,20 @@ public class teleop extends LinearOpMode {
                     switch (modeRob) {
                         case BASKET:
                             // TODO: SET GLISIERA POS
+                            if(outtakeState == statesOuttake.DEFAULT) {
+                                sequenceState = statesSequence.WAITING1;
+                            } else {
+
+                            }
+                            timer.reset();
                         case CHAMBER:
-                            // TODO: SET GLISIERA POS
+                            if(outtakeState == statesOuttake.DEFAULT) {
+                                sequenceState = statesSequence.WAITING1;
+                            } else {
+
+                            }
+                            timer.reset();
+
 
                     }
                     // TODO:
@@ -71,9 +86,19 @@ public class teleop extends LinearOpMode {
                 case LOW:
                     switch (modeRob) {
                         case BASKET:
+                            if(outtakeState == statesOuttake.DEFAULT) {
+                                sequenceState = statesSequence.WAITING1;
+                            } else {
 
+                            }
+                            timer.reset();
                         case CHAMBER:
+                            if(outtakeState == statesOuttake.DEFAULT) {
+                                sequenceState = statesSequence.WAITING1;
+                            } else {
 
+                            }
+                            timer.reset();
                     }
                     outtakeState = statesOuttake.LOW;
                     reqState = null;
@@ -82,14 +107,59 @@ public class teleop extends LinearOpMode {
             reqState = outtakeState;
             outtakeState = statesOuttake.DEFAULT;
         }
+
+
+
+        if(outtakeState == statesOuttake.DEFAULT && reqState != null && sequenceState != statesSequence.DONE) {
+            switch (sequenceState) {
+                case WAITING1:
+                    // TODO: First step of sequence
+                    break;
+                case WAITING2:
+                    if(timer.milliseconds() > 200) {
+                        // TODO: 2nd step of sequence
+                        sequenceState = statesSequence.WAITING3;
+                    }
+                    break;
+                case WAITING3:
+                    if(timer.milliseconds() > 1000)
+                        // TODO: 3rd step of sequence
+                    sequenceState = statesSequence.WAITING4;
+
+                    break;
+                case WAITING4:
+                    if (timer.milliseconds() > 500) {
+                        // TODO: 4th step of sequence
+                        sequenceState = statesSequence.WAITING5;
+                    }
+                    break;
+                case WAITING5:
+                    if(timer.milliseconds() > 1000) {
+                        // TODO: Last step of sequence
+                        outtakeState = reqState;
+                        reqState = null;
+                        sequenceState = statesSequence.DONE;
+                    }
+                    break;
+            }
     }
-    enum statesOuttake {
-        DEFAULT,
-        LOW,
-        HIGH
-    }
-    enum mode {
-        BASKET,
-        CHAMBER
-    }
+
+}
+enum statesOuttake {
+    DEFAULT,
+    LOW,
+    HIGH
+}
+enum mode {
+    BASKET,
+    CHAMBER
+}
+enum statesSequence {
+    DONE,
+    WAITING1,
+    WAITING2,
+    WAITING3,
+    WAITING4,
+    WAITING5
+}
 }
