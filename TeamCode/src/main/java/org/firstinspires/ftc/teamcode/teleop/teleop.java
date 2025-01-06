@@ -67,6 +67,11 @@ public class teleop extends LinearOpMode {
                             if(outtakeState == statesOuttake.DEFAULT) {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
+                           // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
+                            outake.setBrat(universalConstants.bratSus);
+                            outake.setTwist(universalConstants.twistScore);
+                            outake.setPivot(universalConstants.pivotSus);
+                            crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
 
                             }
                             timer.reset();
@@ -74,6 +79,11 @@ public class teleop extends LinearOpMode {
                             if(outtakeState == statesOuttake.DEFAULT) {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
+                                //  crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
+                                outake.setBrat(universalConstants.bratIntermediary);
+                                outake.setTwist(universalConstants.twistScore);
+                                outake.setPivot(universalConstants.pivotJos);
+                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
 
                             }
                             timer.reset();
@@ -89,6 +99,11 @@ public class teleop extends LinearOpMode {
                             if(outtakeState == statesOuttake.DEFAULT) {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
+                               // crane.setSliderPosition(universalConstants.GLISIERA_LOW_BASKET);
+                                outake.setBrat(universalConstants.bratSus);
+                                outake.setTwist(universalConstants.twistScore);
+                                outake.setPivot(universalConstants.pivotSus);
+                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
 
                             }
                             timer.reset();
@@ -96,6 +111,11 @@ public class teleop extends LinearOpMode {
                             if(outtakeState == statesOuttake.DEFAULT) {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
+                               // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
+                                outake.setBrat(universalConstants.bratIntermediary);
+                                outake.setTwist(universalConstants.twistScore);
+                                outake.setPivot(universalConstants.pivotJos);
+                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
 
                             }
                             timer.reset();
@@ -106,8 +126,13 @@ public class teleop extends LinearOpMode {
         } else if(!GAMEPAD1.right_bumper.toggle && reqState == null && outtakeState != statesOuttake.DEFAULT) {
             reqState = outtakeState;
             outtakeState = statesOuttake.DEFAULT;
-        }
+           // crane.setSliderPosition(universalConstants.GLISIERA_DEFAULT);
+            outake.setBrat(universalConstants.bratIntermediary);
+            outake.setTwist(universalConstants.twistDef);
+            outake.setPivot(universalConstants.pivotJos);
+            crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_DEFAULT);
 
+        }
 
 
         if(outtakeState == statesOuttake.DEFAULT && reqState != null && sequenceState != statesSequence.DONE) {
@@ -145,6 +170,8 @@ public class teleop extends LinearOpMode {
     }
 
 }
+
+    }
 enum statesOuttake {
     DEFAULT,
     LOW,
@@ -162,4 +189,4 @@ enum statesSequence {
     WAITING4,
     WAITING5
 }
-}
+

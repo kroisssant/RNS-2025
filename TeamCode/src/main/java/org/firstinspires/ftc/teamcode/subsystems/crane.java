@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class crane {
-    DcMotorEx sliderRight, sliderLeft;
-    Servo sliderFront;
+   // DcMotorEx glisieraDreapta;
+    Servo glisieraOriz;
     WPILibMotionProfile motionProfile;
     ElapsedTime timer;
     HardwareMap hardwareMap;
@@ -25,23 +25,19 @@ public class crane {
     double lastVelocity = 0, lastTime = 0;
 
     public crane(HardwareMap hm) {
-        sliderFront = hm.get(Servo.class, "sliderFront");
-        sliderLeft = hm.get(DcMotorEx.class, "sliderLeft");
-        sliderLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sliderRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sliderRight = hm.get(DcMotorEx.class, "sliderRight");
+        glisieraOriz = hm.get(Servo.class, "glisieraOriz");
+       // glisieraDreapta.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       // glisieraDreapta = hm.get(DcMotorEx.class, "glisieraDreapta");
     }
-    public void setSliderFront(float pos) {
-        sliderFront.setPosition(pos);
+    public void setglisieraOriz(float pos) {
+        glisieraOriz.setPosition(pos);
     }
-    public void setSliderPosition(int pos) {
-        sliderRight.setTargetPosition(pos);
-        sliderLeft.setTargetPosition(pos);
+   // public void setSliderPosition(int pos) {
+       // glisieraDreapta.setTargetPosition(pos);
     }
-    public void setPower(float pow) {
-        sliderRight.setPower(pow);
-        sliderLeft.setPower(pow);
-    }
+   // public void setPower(float pow) {
+       // glisieraDreapta.setPower(pow);
+
 //    public void setPosition(int ticks) {
 //        glisieraFeedforward = new FeedforwardController() {
 //            @Override
@@ -82,4 +78,4 @@ public class crane {
 //        glisieraRight.setPower(calculatePower()[0]);
 //    }
 
-}
+

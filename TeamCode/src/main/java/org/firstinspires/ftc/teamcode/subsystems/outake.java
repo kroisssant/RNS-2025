@@ -1,30 +1,28 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class outake {
-    Servo twister, claw, armRight, armLeft, joint;
+    Servo twist, claw, bratDreapta, bratStanga, pivot;
     public outake(HardwareMap hm) {
-        twister = hm.get(Servo.class, "twister");
+        twist = hm.get(Servo.class, "twist");
         claw = hm.get(Servo.class, "claw");
-        armRight = hm.get(Servo.class, "armRight");
-        armLeft = hm.get(Servo.class, "armLeft");
-        joint = hm.get(Servo.class, "joint");
+        bratDreapta = hm.get(Servo.class, "bratDreapta");
+        bratStanga = hm.get(Servo.class, "bratStanga");
+        pivot = hm.get(Servo.class, "pivot");
     }
-    public void setTwister(float pos) {
-        twister.setPosition(pos);
+    public void setTwist(double pos) {
+        twist.setPosition(pos);
     }
     public void setClaw(float pos) {
         claw.setPosition(pos);
     }
-    public void setArm(float pos) {
-        armRight.setPosition(pos);
-        armLeft.setPosition(pos);
+    public void setBrat(double pos) {
+        bratDreapta.setPosition(pos);
+        bratStanga.setPosition(pos);
     }
 
-    public void setJoint(float pos) {
-        joint.setPosition(pos);
+    public void setPivot(double pos) {pivot.setPosition(pos);
     }
 }
