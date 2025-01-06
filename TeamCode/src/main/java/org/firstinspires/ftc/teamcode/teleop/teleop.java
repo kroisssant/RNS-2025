@@ -147,7 +147,7 @@ public class teleop extends LinearOpMode {
         }
 
 
-        if(outtakeState == statesOuttake.DEFAULT && reqState != null && sequenceState != statesSequence.DONE) {
+        if(outtakeState == statesOuttake.DEFAULT && reqState != null) {
             switch (sequenceState) {
                 case WAITING1:
                     // Deci asta o sa fie prima actiune pe care o face din secventa
