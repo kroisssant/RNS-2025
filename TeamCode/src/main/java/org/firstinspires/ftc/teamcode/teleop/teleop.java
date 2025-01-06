@@ -87,31 +87,25 @@ public class teleop extends LinearOpMode {
                     switch (modeRob) {
                         case BASKET:
                             // TODO: SET GLISIERA POS
-                            if(outtakeState == statesOuttake.DEFAULT) {
-                                sequenceState = statesSequence.WAITING1;
-                            } else {
-                           // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
+
+                            sequenceState = statesSequence.WAITING1;
+                            // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
                             posBrat = universalConstants.bratSus;
                             posTwist = universalConstants.twistScore;
                             posPivot = universalConstants.pivotSus;    //toate astea le las aici da? Da si vezi ca cand dau confirm inapoi sa se intoarca nu se intoarce
                             posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
 
-                            }
                             timer.reset();
                         case CHAMBER:
-                            if(outtakeState == statesOuttake.DEFAULT) {
-                                sequenceState = statesSequence.WAITING1;
-                            } else {
-                                //  crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
-                                posBrat = universalConstants.bratIntermediary;
-                                posTwist =  universalConstants.twistScore;
-                                posPivot  = universalConstants.pivotJos;
-                                posGlisieraOriz= universalConstants.GLISIERA_ORIZ_FORWARD;
+                            //  crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
 
-                            }
+                            posTwist =  universalConstants.twistScore;
+                            posPivot  = universalConstants.pivotJos;
+                            posGlisieraOriz= universalConstants.GLISIERA_ORIZ_FORWARD;
+                            posBrat = universalConstants.bratIntermediary;
+                            sequenceState = statesSequence.WAITING1;
+
                             timer.reset();
-
-
                         }
                         // TODO:
                 outtakeState = statesOuttake.HIGH;
@@ -119,28 +113,22 @@ public class teleop extends LinearOpMode {
                 case LOW:
                     switch (modeRob) {
                         case BASKET:
-                            if(outtakeState == statesOuttake.DEFAULT) {
-                                sequenceState = statesSequence.WAITING1;
-                            } else {
-                               // crane.setSliderPosition(universalConstants.GLISIERA_LOW_BASKET);
-                                posBrat = universalConstants.bratSus;
-                                posTwist =  universalConstants.twistScore;
-                                posPivot = universalConstants.pivotSus;
-                                posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
+                           // crane.setSliderPosition(universalConstants.GLISIERA_LOW_BASKET);
+                            posBrat = universalConstants.bratSus;
+                            posTwist =  universalConstants.twistScore;
+                            posPivot = universalConstants.pivotSus;
+                            posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
+                            sequenceState = statesSequence.WAITING1;
 
-                            }
+
                             timer.reset();
                         case CHAMBER:
-                            if(outtakeState == statesOuttake.DEFAULT) {
-                                sequenceState = statesSequence.WAITING1;
-                            } else {
-                               // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
-                                posBrat = universalConstants.bratIntermediary;
-                                posTwist=  universalConstants.twistScore;
-                                posPivot = universalConstants.pivotJos;
-                                posGlisieraOriz=  universalConstants.GLISIERA_ORIZ_FORWARD;
-
-                            }
+                            // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
+                            posBrat = universalConstants.bratIntermediary;
+                            posTwist=  universalConstants.twistScore;
+                            posPivot = universalConstants.pivotJos;
+                            posGlisieraOriz=  universalConstants.GLISIERA_ORIZ_FORWARD;
+                            sequenceState = statesSequence.WAITING1;
                             timer.reset();
                             }
                     outtakeState = statesOuttake.LOW;
@@ -165,7 +153,7 @@ public class teleop extends LinearOpMode {
                     // Deci asta o sa fie prima actiune pe care o face din secventa
                     outake.setBrat(posBrat);
                     // TODO: First step of sequence
-                    sequenceState = sequenceState.WAITING2;
+                    sequenceState = statesSequence.WAITING2;
                     break;
                 case WAITING2:
                     if(timer.milliseconds() > 200) {
