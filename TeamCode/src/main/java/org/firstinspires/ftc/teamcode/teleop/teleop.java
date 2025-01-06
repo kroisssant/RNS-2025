@@ -33,12 +33,15 @@ public class teleop extends LinearOpMode {
         crane = new crane(hardwareMap);
         outake = new outake(hardwareMap);
         timer = new ElapsedTime();
+        // aici bag poz pt init?
+        // Da
         waitForStart();
         while (opModeIsActive() && !isStopRequested()) {
             GAMEPAD1.run();
             GAMEPAD2.run();
             outake();
             telemetry();
+            //si aici pt cand incepe? Da
         }
     }
     public void telemetry() {
@@ -46,6 +49,7 @@ public class teleop extends LinearOpMode {
         telemetry.addData("wait step", sequenceState);
         telemetry.addData("req state", reqState);
         telemetry.addData("robot state", outtakeState);
+        telemetry.addData("timer", timer.milliseconds());
         // Ca sa adaugi ceva in telemetrie trebuie sa i dai si update
         telemetry.update();
     }
@@ -64,7 +68,20 @@ public class teleop extends LinearOpMode {
         if(GAMEPAD2.b.value) {
             reqState = statesOuttake.LOW;
         }
-        if(GAMEPAD1.right_bumper.toggle && reqState != null) {
+        // aici?
+        // Da
+        if(GAMEPAD2.x.toggle) {
+            outake.setClaw((float) universalConstants.CLAW_OPEN);
+        } else if (!GAMEPAD2.x.toggle) {
+            outake.setClaw((float) universalConstants.CLAW_CLOSED);
+        }
+       // deci orice alta comanda pot de aici sa o bag da?
+        //Da
+        // cauta si tu pe net chestia aia cu servouri ca am nevoie grav
+        // si pt glisera oriz si pt twist de la claw pt cand sunt in submersible
+        // Ok
+        // Inca ceva, o sa ti dau o librarie vezi daca iti place
+        if(GAMEPAD1.right_bumper.toggle && reqState != null && sequenceState == statesSequence.DONE) {
             switch (reqState) {
                 case HIGH:
                     switch (modeRob) {
@@ -76,7 +93,7 @@ public class teleop extends LinearOpMode {
                            // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
                             posBrat = universalConstants.bratSus;
                             posTwist = universalConstants.twistScore;
-                            posPivot = universalConstants.pivotSus;
+                            posPivot = universalConstants.pivotSus;    //toate astea le las aici da? Da si vezi ca cand dau confirm inapoi sa se intoarca nu se intoarce
                             posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
 
                             }
@@ -95,10 +112,10 @@ public class teleop extends LinearOpMode {
                             timer.reset();
 
 
-                    }
-                    // TODO:
-                    outtakeState = statesOuttake.HIGH;
-                    reqState = null;
+                        }
+                        // TODO:
+                outtakeState = statesOuttake.HIGH;
+                reqState = null;
                 case LOW:
                     switch (modeRob) {
                         case BASKET:
@@ -125,11 +142,12 @@ public class teleop extends LinearOpMode {
 
                             }
                             timer.reset();
-                    }
+                            }
                     outtakeState = statesOuttake.LOW;
                     reqState = null;
+                    break;
             }
-        } else if(!GAMEPAD1.right_bumper.toggle && reqState == null && outtakeState != statesOuttake.DEFAULT) {
+        } else if(!GAMEPAD1.right_bumper.toggle && reqState == null && outtakeState != statesOuttake.DEFAULT && sequenceState == statesSequence.DONE) {
             reqState = outtakeState;
             outtakeState = statesOuttake.DEFAULT;
            // crane.setSliderPosition(universalConstants.GLISIERA_DEFAULT);
@@ -147,6 +165,7 @@ public class teleop extends LinearOpMode {
                     // Deci asta o sa fie prima actiune pe care o face din secventa
                     outake.setBrat(posBrat);
                     // TODO: First step of sequence
+                    sequenceState = sequenceState.WAITING2;
                     break;
                 case WAITING2:
                     if(timer.milliseconds() > 200) {
