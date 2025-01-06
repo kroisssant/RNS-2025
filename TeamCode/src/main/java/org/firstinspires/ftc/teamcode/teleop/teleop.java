@@ -22,6 +22,7 @@ public class teleop extends LinearOpMode {
     crane crane;
     outake outake;
     ElapsedTime timer;
+    double posBrat, posTwist, posPivot, posGlisieraOriz;
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -42,6 +43,11 @@ public class teleop extends LinearOpMode {
     }
     public void telemetry() {
         telemetry.addData("mode", modeRob);
+        telemetry.addData("wait step", sequenceState);
+        telemetry.addData("req state", reqState);
+        telemetry.addData("robot state", outtakeState);
+        // Ca sa adaugi ceva in telemetrie trebuie sa i dai si update
+        telemetry.update();
     }
     public void outake() {
         if(gamepad2.right_trigger > 0.3) {
@@ -68,10 +74,10 @@ public class teleop extends LinearOpMode {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
                            // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
-                            outake.setBrat(universalConstants.bratSus);
-                            outake.setTwist(universalConstants.twistScore);
-                            outake.setPivot(universalConstants.pivotSus);
-                            crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
+                            posBrat = universalConstants.bratSus;
+                            posTwist = universalConstants.twistScore;
+                            posPivot = universalConstants.pivotSus;
+                            posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
 
                             }
                             timer.reset();
@@ -80,10 +86,10 @@ public class teleop extends LinearOpMode {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
                                 //  crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
-                                outake.setBrat(universalConstants.bratIntermediary);
-                                outake.setTwist(universalConstants.twistScore);
-                                outake.setPivot(universalConstants.pivotJos);
-                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
+                                posBrat = universalConstants.bratIntermediary;
+                                posTwist =  universalConstants.twistScore;
+                                posPivot  = universalConstants.pivotJos;
+                                posGlisieraOriz= universalConstants.GLISIERA_ORIZ_FORWARD;
 
                             }
                             timer.reset();
@@ -100,10 +106,10 @@ public class teleop extends LinearOpMode {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
                                // crane.setSliderPosition(universalConstants.GLISIERA_LOW_BASKET);
-                                outake.setBrat(universalConstants.bratSus);
-                                outake.setTwist(universalConstants.twistScore);
-                                outake.setPivot(universalConstants.pivotSus);
-                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
+                                posBrat = universalConstants.bratSus;
+                                posTwist =  universalConstants.twistScore;
+                                posPivot = universalConstants.pivotSus;
+                                posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
 
                             }
                             timer.reset();
@@ -112,10 +118,10 @@ public class teleop extends LinearOpMode {
                                 sequenceState = statesSequence.WAITING1;
                             } else {
                                // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
-                                outake.setBrat(universalConstants.bratIntermediary);
-                                outake.setTwist(universalConstants.twistScore);
-                                outake.setPivot(universalConstants.pivotJos);
-                                crane.setglisieraOriz(universalConstants.GLISIERA_ORIZ_FORWARD);
+                                posBrat = universalConstants.bratIntermediary;
+                                posTwist=  universalConstants.twistScore;
+                                posPivot = universalConstants.pivotJos;
+                                posGlisieraOriz=  universalConstants.GLISIERA_ORIZ_FORWARD;
 
                             }
                             timer.reset();
@@ -138,28 +144,31 @@ public class teleop extends LinearOpMode {
         if(outtakeState == statesOuttake.DEFAULT && reqState != null && sequenceState != statesSequence.DONE) {
             switch (sequenceState) {
                 case WAITING1:
+                    // Deci asta o sa fie prima actiune pe care o face din secventa
+                    outake.setBrat(posBrat);
                     // TODO: First step of sequence
                     break;
                 case WAITING2:
                     if(timer.milliseconds() > 200) {
+                        // Cand timeru atinge 200 de ms o sa o faca pe asta
+                        outake.setTwist(posTwist);
+                        outake.setPivot(posPivot);
                         // TODO: 2nd step of sequence
                         sequenceState = statesSequence.WAITING3;
                     }
                     break;
                 case WAITING3:
-                    if(timer.milliseconds() > 1000)
-                        // TODO: 3rd step of sequence
-                    sequenceState = statesSequence.WAITING4;
-
-                    break;
-                case WAITING4:
-                    if (timer.milliseconds() > 500) {
-                        // TODO: 4th step of sequence
-                        sequenceState = statesSequence.WAITING5;
-                    }
-                    break;
-                case WAITING5:
                     if(timer.milliseconds() > 1000) {
+                        // cand timeru atinge 1000 de ms o face pe asta
+                        crane.setglisieraOriz((float) posGlisieraOriz);
+                        sequenceState = statesSequence.WAITING4;
+                    }
+                        // TODO: 3rd step of sequence
+                    break;
+
+                case WAITING4:
+                    if(timer.milliseconds() > 1000) {
+                        // Asta e ultimu pas pe care il face cand timeru ajunge la 1000 de ms
                         // TODO: Last step of sequence
                         outtakeState = reqState;
                         reqState = null;
