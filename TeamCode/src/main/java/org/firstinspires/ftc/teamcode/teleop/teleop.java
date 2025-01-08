@@ -101,7 +101,6 @@ public class teleop extends LinearOpMode {
                         }
                         // TODO:
                 outtakeState = statesOuttake.HIGH;
-                reqState = null;
                 case LOW:
                     switch (modeRob) {
                         case BASKET:
@@ -122,7 +121,6 @@ public class teleop extends LinearOpMode {
                             timer.reset();
                             }
                     outtakeState = statesOuttake.LOW;
-                    reqState = null;
                     break;
             }
         } else if(!GAMEPAD1.right_bumper.toggle && reqState == null && outtakeState != statesOuttake.DEFAULT && sequenceState == statesSequence.DONE) {
