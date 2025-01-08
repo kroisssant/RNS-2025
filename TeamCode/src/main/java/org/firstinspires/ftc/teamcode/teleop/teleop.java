@@ -33,8 +33,6 @@ public class teleop extends LinearOpMode {
         crane = new crane(hardwareMap);
         outake = new outake(hardwareMap);
         timer = new ElapsedTime();
-        // aici bag poz pt init?
-        // Da
         waitForStart();
         while (opModeIsActive() && !isStopRequested()) {
             GAMEPAD1.run();
@@ -75,19 +73,13 @@ public class teleop extends LinearOpMode {
         } else if (!GAMEPAD2.x.toggle) {
             outake.setClaw((float) universalConstants.CLAW_CLOSED);
         }
-       // deci orice alta comanda pot de aici sa o bag da?
-        //Da
-        // cauta si tu pe net chestia aia cu servouri ca am nevoie grav
-        // si pt glisera oriz si pt twist de la claw pt cand sunt in submersible
-        // Ok
-        // Inca ceva, o sa ti dau o librarie vezi daca iti place
+
         if(GAMEPAD1.right_bumper.toggle && reqState != null && sequenceState == statesSequence.DONE) {
             switch (reqState) {
                 case HIGH:
                     switch (modeRob) {
                         case BASKET:
                             // TODO: SET GLISIERA POS
-
                             sequenceState = statesSequence.WAITING1;
                             // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_BASKET);
                             posBrat = universalConstants.bratSus;
@@ -119,8 +111,6 @@ public class teleop extends LinearOpMode {
                             posPivot = universalConstants.pivotSus;
                             posGlisieraOriz = universalConstants.GLISIERA_ORIZ_FORWARD;
                             sequenceState = statesSequence.WAITING1;
-
-
                             timer.reset();
                         case CHAMBER:
                             // crane.setSliderPosition(universalConstants.GLISIERA_HIGH_CHAMBER);
@@ -147,7 +137,7 @@ public class teleop extends LinearOpMode {
         }
 
 
-        if(outtakeState == statesOuttake.DEFAULT && reqState != null) {
+        if(reqState != null && sequenceState != statesSequence.DONE) {
             switch (sequenceState) {
                 case WAITING1:
                     // Deci asta o sa fie prima actiune pe care o face din secventa
